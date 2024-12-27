@@ -16,10 +16,9 @@ function rxmile_save_form()
         wp_die();
     }
 
-    // Retrieve the current step
+    // Retrieve the current step from the POST request
     $step = sanitize_text_field($_POST['step'] ?? '');
     $form_data = get_transient('rxmile_form_data') ?: [];
-
 
     if ($step) {
         switch ($step) {
@@ -76,16 +75,13 @@ function rxmile_save_form()
         // Debug: Log saved data
         error_log('Form data saved: ' . print_r($form_data, true));
 
-        $current_url = home_url(add_query_arg([], $_SERVER['REQUEST_URI']));
-
         // Generate the next step's URL based on the current URL
         $next_step = 'step' . ((int) str_replace('step', '', $step) + 1); // Calculate next step
+        $current_url = home_url(add_query_arg([], $_SERVER['REQUEST_URI']));
         $redirect_url = add_query_arg('step', $next_step, $current_url); // Keep the current page and add ?step=next
 
         wp_send_json_success([
-            'message' => 'Form data saved successfully.',
             'redirect_url' => $redirect_url,
-            'data' => $form_data // Make sure to include the form data in the response
         ]);
     } else {
         wp_send_json_error(['message' => 'Step not provided.']);
