@@ -12,6 +12,7 @@ function rxmile_save_form()
 {
     // Verify the nonce for security
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'rxmile_nonce')) {
+        error_log('Nonce verification failed. Nonce received: ' . ($_POST['nonce'] ?? 'None'));
         wp_send_json_error(['message' => 'Invalid nonce.']);
         wp_die();
     }
