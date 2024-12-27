@@ -76,12 +76,15 @@ function rxmile_save_form()
         // Debug: Log saved data
         error_log('Form data saved: ' . print_r($form_data, true));
 
-        // Determine the next step URL (example: ?step=step2)
-        $next_step = 'step' . ((int) str_replace('step', '', $step) + 1);
+        $current_url = home_url(add_query_arg([], $_SERVER['REQUEST_URI']));
+
+        // Generate the next step's URL based on the current URL
+        $next_step = 'step' . ((int) str_replace('step', '', $step) + 1); // Calculate next step
+        $redirect_url = add_query_arg('step', $next_step, $current_url); // Keep the current page and add ?step=next
 
         wp_send_json_success([
             'message' => 'Form data saved successfully.',
-            'redirect_url' => add_query_arg('step', $next_step, home_url('/rxmile-form/')),
+            'redirect_url' => $redirect_url,
             'data' => $form_data // Make sure to include the form data in the response
         ]);
     } else {
