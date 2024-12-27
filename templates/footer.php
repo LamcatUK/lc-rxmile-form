@@ -26,9 +26,39 @@ if (!defined('ABSPATH')) {
     </div>
 </footer>
 <?php
-echo '<pre class="pt-5">' . print_r($_SESSION, true) . '</pre>';
-echo '<pre class="pt-5">' . print_r($_SESSION['form_data'], true) . '</pre>';
-
+if (current_user_can('administrator')) {
+    $form_data = get_transient('rxmile_form_data');
+    if ($form_data) {
+        echo '<pre id="debug-info" style="display:none;">';
+        print_r($form_data);
+        echo '</pre>';
+?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const debugInfo = document.getElementById("debug-info");
+                if (debugInfo) {
+                    const toggleButton = document.createElement("button");
+                    toggleButton.textContent = "Toggle Debug Info";
+                    toggleButton.style.position = "fixed";
+                    toggleButton.style.bottom = "10px";
+                    toggleButton.style.right = "10px";
+                    toggleButton.style.zIndex = "1000";
+                    toggleButton.addEventListener("click", function() {
+                        if (debugInfo.style.display === "none") {
+                            debugInfo.style.display = "block";
+                        } else {
+                            debugInfo.style.display = "none";
+                        }
+                    });
+                    document.body.appendChild(toggleButton);
+                }
+            });
+        </script>
+<?php
+    } else {
+        echo '<p>No form data found in transient.</p>';
+    }
+}
 wp_footer();
 
 ?>
