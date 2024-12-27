@@ -12,15 +12,14 @@ function rxmile_save_form()
 {
     // Verify the nonce for security
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'rxmile_nonce')) {
-        wp_send_json_error(['message' => 'Invalid request.']);
+        wp_send_json_error(['message' => 'Invalid nonce.']);
         wp_die();
     }
 
-    // Fetch the current form data from transient storage
+    // Retrieve the current step
+    $step = sanitize_text_field($_POST['step'] ?? '');
     $form_data = get_transient('rxmile_form_data') ?: [];
 
-    // Determine the current step
-    $step = sanitize_text_field($_POST['step'] ?? '');
 
     if ($step) {
         switch ($step) {
@@ -67,7 +66,7 @@ function rxmile_save_form()
                 break;
 
             default:
-                wp_send_json_error(['message' => 'Invalid step provided.']);
+                wp_send_json_error(['message' => 'Invalid step']);
                 wp_die();
         }
 
@@ -75,7 +74,7 @@ function rxmile_save_form()
         set_transient('rxmile_form_data', $form_data, HOUR_IN_SECONDS);
 
         // Debug: Log saved data
-        error_log(print_r($form_data, true));
+        error_log('Form data saved: ' . print_r($form_data, true));
 
         // Determine the next step URL (example: ?step=step2)
         $next_step = 'step' . ((int) str_replace('step', '', $step) + 1);
@@ -83,6 +82,7 @@ function rxmile_save_form()
         wp_send_json_success([
             'message' => 'Form data saved successfully.',
             'redirect_url' => add_query_arg('step', $next_step, home_url('/rxmile-form/')),
+            'data' => $form_data // Make sure to include the form data in the response
         ]);
     } else {
         wp_send_json_error(['message' => 'Step not provided.']);

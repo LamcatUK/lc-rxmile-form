@@ -2,17 +2,17 @@
 include plugin_dir_path(__FILE__) . '/header.php';
 
 // Determine the current step
-$current_step = isset($_GET['step']) ? sanitize_text_field($_GET['step']) : '1';
+$current_step = isset($_GET['step']) ? sanitize_text_field($_GET['step']) : 'step1';
 
 // Load the appropriate step
 switch ($current_step) {
-    case '1':
+    case 'step1':
         include plugin_dir_path(__DIR__) . '/templates/step1.php';
         break;
-    case '2':
+    case 'step2':
         include plugin_dir_path(__DIR__) . '/templates/step2.php';
         break;
-    case '3':
+    case 'step3':
         include plugin_dir_path(__DIR__) . '/templates/step3.php';
         break;
     default:

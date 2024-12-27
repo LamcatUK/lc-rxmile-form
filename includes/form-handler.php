@@ -19,8 +19,11 @@ function rxmile_save_form()
     check_ajax_referer('rxmile_nonce', 'nonce');
 
     // Get form data
-    parse_str($_POST['data'], $form_data);
-
+    if (isset($_POST['data']) && !empty($_POST['data'])) {
+        parse_str($_POST['data'], $form_data);
+    } else {
+        error_log('No form data received or data is empty.');
+    }
     // Process form data as needed
     // Example: Save to post meta or log data
     // You can use $form_data['field_name'] to access individual fields

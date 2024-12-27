@@ -16,13 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 const result = await response.json();
-
-                console.log("Server response:", result); // Check this in the console
+                console.log("Server response:", result);
 
                 if (result.success) {
-                    window.location.href = result.data.redirect_url;
+                    window.location.href = result.data.redirect_url; // Redirect to next step
                 } else {
-                    console.error("Server error:", result.message);
                     alert(result.message || "An error occurred.");
                 }
             } catch (error) {
@@ -30,7 +28,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("There was a problem submitting the form.");
             }
         });
-    } else {
-        console.error("Form not found on the page.");
     }
 });

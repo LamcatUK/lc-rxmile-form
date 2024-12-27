@@ -1,5 +1,6 @@
 // Step 1 Form
-const step1Form = document.getElementById("step1form");
+const step1form = document.getElementById("rxmile-form");
+
 
 if (step1Form) {
     step1Form.addEventListener("submit", function (event) {
