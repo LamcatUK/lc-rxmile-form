@@ -35,14 +35,13 @@ add_filter('template_include', function ($template) {
 function rxmile_enqueue_scripts()
 {
     if (is_singular('rxmile_form')) {
-        wp_enqueue_style('rxmile-plugin-style', plugin_dir_url(__FILE__) . 'assets/css/style.css');
-        // Enqueue the main script
+        // Enqueue your main script
         wp_enqueue_script('rxmile-plugin-script', plugin_dir_url(__FILE__) . 'assets/js/script.js', [], null, true);
 
-        // Localise data for AJAX
+        // Localize script to pass PHP data to JavaScript
         wp_localize_script('rxmile-plugin-script', 'rxmileData', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('rxmile_nonce'),
+            'ajax_url' => admin_url('admin-ajax.php'), // URL for AJAX requests
+            'nonce'    => wp_create_nonce('rxmile_nonce'), // Generate a nonce
         ]);
     }
 }
