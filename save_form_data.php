@@ -1,27 +1,31 @@
 <?php
+// Ensure this file is not accessed directly.
+if (!defined('ABSPATH')) {
+    exit;
+}
 
+// Add the AJAX actions for logged-in and non-logged-in users
 add_action('wp_ajax_rxmile_save_form', 'rxmile_save_form');
 add_action('wp_ajax_nopriv_rxmile_save_form', 'rxmile_save_form');
 
 function rxmile_save_form()
 {
-    // Verify nonce for security
+    // Verify the nonce for security
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'rxmile_nonce')) {
-        wp_send_json_error(['message' => 'Invalid nonce.']);
+        wp_send_json_error(['message' => 'Invalid request.']);
         wp_die();
     }
 
-    // Gather existing form data from WordPress user meta or transient
-    $user_id = get_current_user_id();
-    $form_data_key = 'rxmile_form_data';
-    $form_data = $user_id ? get_user_meta($user_id, $form_data_key, true) : get_transient($form_data_key);
-    $form_data = is_array($form_data) ? $form_data : [];
+    // Fetch the current form data from transient storage
+    $form_data = get_transient('rxmile_form_data') ?: [];
 
-    // Check the step and update form data accordingly
+    // Determine the current step
     $step = sanitize_text_field($_POST['step'] ?? '');
+
     if ($step) {
         switch ($step) {
             case 'step1':
+                // Collect data from step 1
                 $form_data = array_merge($form_data, [
                     'first_name' => sanitize_text_field($_POST['firstName'] ?? ''),
                     'last_name' => sanitize_text_field($_POST['lastName'] ?? ''),
@@ -40,12 +44,14 @@ function rxmile_save_form()
                 break;
 
             case 'step2':
+                // Handle step 2 options (checkboxes or similar)
                 $form_data['options'] = isset($_POST['options']) && is_array($_POST['options'])
                     ? array_map('sanitize_text_field', $_POST['options'])
                     : [];
                 break;
 
             case 'step3':
+                // Collect payment details for step 3
                 $form_data = array_merge($form_data, [
                     'cardholder_name' => sanitize_text_field($_POST['cardholder_name'] ?? ''),
                     'card_number' => sanitize_text_field($_POST['card_number'] ?? ''),
@@ -65,14 +71,16 @@ function rxmile_save_form()
                 wp_die();
         }
 
-        // Save updated form data
-        if ($user_id) {
-            update_user_meta($user_id, $form_data_key, $form_data);
-        } else {
-            set_transient($form_data_key, $form_data, 60 * 60); // Store data for 1 hour
-        }
+        // Save the updated form data back to transient
+        set_transient('rxmile_form_data', $form_data, HOUR_IN_SECONDS);
 
-        wp_send_json_success(['message' => 'Form data stored successfully.']);
+        // Determine the next step URL (example: ?step=step2)
+        $next_step = 'step' . ((int) str_replace('step', '', $step) + 1);
+
+        wp_send_json_success([
+            'message' => 'Form data saved successfully.',
+            'redirect_url' => add_query_arg('step', $next_step, home_url('/rxmile-form/')),
+        ]);
     } else {
         wp_send_json_error(['message' => 'Step not provided.']);
     }
