@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (form) {
         form.addEventListener("submit", async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             const formData = new FormData(form);
-            formData.append("action", "rxmile_save_form"); // Add AJAX action
-            formData.append("nonce", rxmileData.nonce);    // Add nonce for security
+            formData.append("action", "rxmile_save_form");
+            formData.append("nonce", rxmileData.nonce);
 
             try {
                 const response = await fetch(rxmileData.ajax_url, {
@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const result = await response.json();
 
-                // Debugging: Log server response
-                console.log("Response from server:", result);
+                console.log("Server response:", result); // Check this in the console
 
                 if (result.success) {
                     window.location.href = result.data.redirect_url;
                 } else {
+                    console.error("Server error:", result.message);
                     alert(result.message || "An error occurred.");
                 }
             } catch (error) {
@@ -30,5 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("There was a problem submitting the form.");
             }
         });
+    } else {
+        console.error("Form not found on the page.");
     }
 });

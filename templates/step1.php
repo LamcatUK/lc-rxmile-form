@@ -10,7 +10,8 @@ $sessionData = $_SESSION['form_data'] ?? [];
         <div class="intro-text mb-5"><?= get_field('step1_intro') ?></div>
         <h2 class="boxed mb-5">Registration Form</h2>
 
-        <form id="step1form" method="post" novalidate>
+
+        <form id="rxmile-form" method="POST" novalidate>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">

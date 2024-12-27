@@ -74,6 +74,9 @@ function rxmile_save_form()
         // Save the updated form data back to transient
         set_transient('rxmile_form_data', $form_data, HOUR_IN_SECONDS);
 
+        // Debug: Log saved data
+        error_log(print_r($form_data, true));
+
         // Determine the next step URL (example: ?step=step2)
         $next_step = 'step' . ((int) str_replace('step', '', $step) + 1);
 
