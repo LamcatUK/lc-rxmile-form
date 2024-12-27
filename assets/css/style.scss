@@ -1,0 +1,343 @@
+:root {
+    --col-blue-900: #072b7f;
+    --col-blue-100: #e4ecfe;
+    --col-grey-100: #e7e7e7;
+    --col-grey-200: #b6b9bf;
+    --col-grey-400: #666666;
+    --col-red-400: #fd256f;
+    --col-green-400: #05c1aa;
+    --col-green-200: hsl(173 95% 39% / .34);
+
+    --transition: 200ms ease-in-out;
+}
+
+/* montserrat-regular - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/montserrat-v29-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* montserrat-700 - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/montserrat-v29-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+
+body {
+
+    font-family: 'Montserrat', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+
+    background: linear-gradient(90deg, var(--col-blue-100) 12%, white 100%);
+    color: var(--col-blue-900);
+
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw; /* Full width of the viewport */
+        height: 100vh; 
+        background-image: url(../img/map-overlay.svg);
+        background-size: cover;
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+header {
+    border-top: 47px solid var(--col-blue-900);
+    padding-block: 2rem;
+    .header__logo {
+        img {
+            max-width: 100%;
+        }
+    }
+}
+
+
+.form-column {
+    border-right: 1px solid var(--col-grey-400);
+}
+
+.intro-text {
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.error-message {
+    font-size: 0.875rem;
+    color: #dc3545; /* Bootstrap danger colour */
+}
+
+input.form-control:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important; /* Ensures background is reset */
+    box-shadow: 0 0 0 30px white inset !important; /* Non-webkit browsers */
+    background-color: #fff !important; /* Match the rest of the inputs */
+    color: #495057 !important; /* Match normal input text color */
+}
+
+h1 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+}
+
+h3, .h3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: var(--col-grey-400);
+}
+
+.tiny {
+    font-size: 0.75rem;
+    color: black;
+}
+
+.boxed {
+    border: 2px solid var(--col-blue-900);
+    padding: 1rem;
+    text-align: center;
+}
+
+.boxed--red {
+    border: 2px solid var(--col-red-400);
+    background-color: var(--col-red-400);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.boxed--blue-100 {
+    border: 2px solid var(--col-blue-400);
+    background-color: var(--col-blue-100);
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.filled {
+    border: 2px solid var(--col-blue-900);
+    background-color: var(--col-blue-900);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.note {
+    font-size: 0.75rem;
+}
+
+.form-label {
+    text-transform: uppercase;
+    color: var(--col-grey-400);
+}
+
+.form-control:read-only {
+    background-color: var(--col-grey-100);
+}
+
+.input-group .error-message {
+    width: 100%;
+    display: block;
+    margin-top: 0.25rem; /* Adjust margin as needed for spacing */
+    order: 2; /* Place the error message after the input field */
+}
+
+button {
+    all: unset;
+    padding: 0.5rem 2.5rem;
+    border-radius: 100vw;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    transition: background-color var(--transition);
+    background-color: var(--_bg);
+    border: 2px solid var(--_bg);
+    &:hover {
+        background-color: color-mix(in srgb, var(--_bg) 70%, white 30%);
+    }
+}
+button.button-primary {
+    --_bg: var(--col-red-400);
+    
+}
+button.button-secondary {
+    --_bg: var(--col-blue-900);
+}
+
+button:disabled {
+    --_bg: var(--col-grey-200);
+    &:hover {
+        background-color: var(--_bg);
+    }
+}
+
+.button-grid {
+    display: grid;
+    gap: 1rem;
+    @media (min-width:568px) {
+        display: flex;    
+    }
+}
+
+footer {
+    background-color: var(--col-blue-900);
+    color: white;
+    text-transform: uppercase;
+
+    a {
+        color: white;
+        text-decoration: none;
+        transition: color var(--transition);
+        &:hover {
+            color: var(--col-green-400);
+        }
+    }
+}
+
+.footer__right {
+    div {
+        font-size: 0.8rem;
+        color: var(--col-green-400);
+    }
+}
+
+[class^="icon"] {
+    display: inline-block;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    margin-inline-end: 0.5rem;
+    &::after {
+        content: "";
+        display: grid;
+        place-content: center;
+        width: 2rem;
+        height: 2rem;
+        position: relative;
+        border-radius: 50%;
+        background-size: 1.2rem 1.2rem;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.icon-facebook,
+.icon-linkedin {
+    &::after {
+        border: 1px solid var(--col-green-400);
+        transition: filter var(--transition);
+    }
+    &:hover {
+        &::after {
+            filter: brightness(0.8);
+        }
+    }
+}
+
+.icon-phone {
+    &::after {
+        background-color: var(--col-green-400);
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Isolation_Mode' data-name='Isolation Mode' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26.75 21.85'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %23fff; stroke-width: 0px; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='m26.75,3.31c0-.95-1.82-2.17-4.08-2.54C16.54-.25,10.26-.25,4.11.76,1.86,1.13.04,2.36.04,3.31c0,.03.02.04.02.07-.03.1-.06.2-.06.3v3.14c0,.45.36.83.82.83h4.13c.44,0,.83-.38.83-.83v-2.87c5.04-.67,10.16-.67,15.21,0v3.06c0,.46.37.82.81.82h4.14c.45,0,.82-.36.82-.82v-3.29c0-.08-.01-.15-.05-.23.02-.06.05-.11.05-.18Z'/%3E%3Cpath class='cls-1' d='m24.64,12.97l-4.52-1.51c-.37-.13-.83-.24-1.31-.32v-5.02h-1.92v2.94h-7v-2.94h-1.91v5.04c-.42.08-.85.18-1.16.29l-4.42,1.51c-.86.29-1.55,1.27-1.55,2.17v5.07c0,.9.73,1.65,1.64,1.65h22.07c.9,0,1.65-.75,1.65-1.65v-5.07c0-.9-.71-1.88-1.57-2.17Zm-11.35,7.04c-2.48,0-4.48-2-4.48-4.46s2-4.47,4.48-4.47,4.45,2.01,4.45,4.47-2,4.46-4.45,4.46Z'/%3E%3Cpath class='cls-1' d='m13.29,13.17c-1.33,0-2.39,1.08-2.39,2.39s1.06,2.39,2.39,2.39,2.37-1.07,2.37-2.39-1.06-2.39-2.37-2.39Z'/%3E%3C/svg%3E");
+    }
+}
+
+.icon-facebook {
+    &::after {
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Isolation_Mode' data-name='Isolation Mode' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12.35 26.57'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %2305c1aa; stroke-width: 0px; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='m11.87,13.29h-3.72v13.28H2.62v-13.28H0v-4.69h2.62v-3.03C2.62,3.4,3.65,0,8.19,0l4.09.02v4.55h-2.97c-.49,0-1.17.24-1.17,1.28v2.76h4.2l-.48,4.68Zm0,0'/%3E%3C/svg%3E");
+    }
+}
+
+.icon-linkedin {
+    &::after {
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Isolation_Mode' data-name='Isolation Mode' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24.18 23.1'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %2305c1aa; stroke-width: 0px; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='m24.18,14.16v8.94h-5.18v-8.34c0-2.09-.75-3.52-2.62-3.52-1.43,0-2.28.96-2.66,1.9-.14.33-.17.8-.17,1.26v8.71h-5.18s.07-14.13,0-15.59h5.18v2.21s-.03.03-.03.05h.03v-.05c.69-1.06,1.92-2.57,4.67-2.57,3.41,0,5.97,2.23,5.97,7.01h0ZM2.93,0C1.16,0,0,1.16,0,2.69s1.13,2.69,2.86,2.69h.03c1.81,0,2.93-1.2,2.93-2.69-.03-1.53-1.12-2.69-2.9-2.69h0ZM.31,23.1h5.18V7.51H.31v15.59Zm0,0'/%3E%3C/svg%3E");
+    }
+}
+
+.option__label {
+    min-height: 40px;
+    .h3 {
+        flex: 1;
+        cursor: pointer;
+        margin-bottom: 0;
+        border-bottom: 2px solid var(--col-grey-200);
+    }
+
+    .form-check {
+        width: 20px;
+        height: 20px;
+        transform: scale(1.5); /* Scales up the checkbox to a larger size */
+        margin: 0 10px;
+        cursor: pointer;
+        border-radius: 0;
+        border: none;
+    }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--col-blue-900);
+    background-color: white;
+    th, td {
+        padding: 10px;
+    }
+    th {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+        background-color: var(--col-green-200);
+    }
+
+}
+
+@media (min-width:768px) {
+    .boxed ul {
+        text-align: start;
+        columns: 2;
+    }
+}
+
+#card-number {
+    padding-right: 2.5rem; /* Extra padding to ensure the logo doesn't overlap with text */
+}
+
+#card-logo-wrapper {
+    padding: 0.25rem 0.5rem; /* Adjust to align logo properly */
+    border: none;
+}
+
+#card-logo {
+    width: 24px;
+    height: auto;
+}
+
+.text-red {
+    color: var(--col-red-400);
+}
+.text-blue {
+    color: var(--col-blue-400);
+}
+.text-green {
+    color: var(--col-green-400);
+    font-weight: 700;
+    text-decoration: none;
+}
